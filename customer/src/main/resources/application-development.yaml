@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: mongo-customer
+  data:
+    mongodb:
+      uri: mongodb+srv://root:${spring.data.mongodb.password}@cluster0.3ru6q.mongodb.net/appcustomer?retryWrites=true&w=majority
+      password: root

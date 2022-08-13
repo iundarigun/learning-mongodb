@@ -1,0 +1,21 @@
+version: "3.4"
+
+services:
+  mongo1:
+    image: mongo
+    entrypoint: ["mongod", "--replSet", "rs0", "--bind_ip_all"] 
+    ports: 
+    - 27017:27017
+    healthcheck:
+      test: test $$(echo "rs.initiate({_id:'rs0',members:[{_id:0,host:\"mongo1:27017\"},{_id:1,host:\"mongo2:27017\"}]}).ok || rs.status().ok" | mongo --port 27017 --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+
+  mongo2:
+    image: mongo
+    entrypoint: ["mongod", "--replSet", "rs0", "--bind_ip_all"] 
+    ports: 
+    - 27018:27017
+    depends_on: 
+    - mongo1
+  
